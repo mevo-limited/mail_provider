@@ -54,9 +54,11 @@ module MailProvider
 
     def sanitize_domain(domain)
       domain = SimpleIDN.to_ascii(domain.strip)
-      return if domain.empty? || domain =~ /\A\#/
-
+      return if domain.blank? || domain =~ /\A\#/
+      
       domain = domain.gsub(/\A(www|)\./, '')
+      return if domain.blank? || domain =~ /\A\#/
+
       PublicSuffix.parse(domain).name
     rescue PublicSuffix::DomainNotAllowed
       nil
