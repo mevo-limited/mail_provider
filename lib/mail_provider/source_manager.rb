@@ -25,7 +25,7 @@ module MailProvider
 
       @missing.each do |key, url|
         puts "-> Downloading source: #{url}"
-        body = Faraday.get(url).body
+        body = Faraday.get(url).body.force_encoding("UTF-8")
         File.open(File.join(@directory, "#{key}.txt"), 'w') { |f| f.puts body }
       end
     end
